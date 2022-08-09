@@ -16,9 +16,8 @@ class BarMenu(tk.Frame):
         self.createButtons()
 
     def createButtons(self):
+        home_button = CustomButton(self, "Home", lambda: self._command(Home, "Home"))
+        home_button.place(rely=0.15, x=0, relwidth=1, relheight=0.1)
 
-        homeButton = CustomButton(self, "Home", lambda: self._command(Home, "Home"))
-        homeButton.place(rely=0.15, x=0, relwidth=1, relheight=0.1)
-
-        searchButton = CustomButton(self, "Buscar", lambda: self._command(Search, "Buscar"))
-        searchButton.place(rely=0.25, x=0, relwidth=1, relheight=0.1)
+        search_button = CustomButton(self, "Buscar", lambda: self._command(Search, "Buscar"))
+        search_button.place(rely=0.25, x=0, relwidth=1, relheight=0.1)

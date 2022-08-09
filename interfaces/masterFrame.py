@@ -19,10 +19,7 @@ class MasterFrame(tk.Frame):
             width=700,
             height=450
         )
-        self.pack(
-            expand=True,
-            fill=tk.BOTH
-        )
+        self.pack(expand=True, fill=tk.BOTH)
         self.createBarMenu()
         self.createTitle()
 

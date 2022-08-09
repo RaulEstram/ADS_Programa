@@ -7,6 +7,8 @@ from elements.customTextArea import CustomTextArea
 
 from logical.adsRequests import ADS
 from logical.files import FilesManagger
+from logical.databaseManager import DataBaseManager
+from logical.queriesManager import QueriesManager
 
 
 class Search(tk.Frame):
@@ -19,6 +21,7 @@ class Search(tk.Frame):
         self.buscarLabel = None
         self.textArea = None
         self.botonCSV = None
+        self.botonQueries = None
         self.data = {}
         self.obtenerTexto = None
         self.ads = ADS("TnEWAPDi8n5R3taijqXleJDTZ5LNDr2LMJjOOsec")
@@ -26,6 +29,7 @@ class Search(tk.Frame):
             bg="#fff"
         )
         self.loadWidgets()
+        self.connection = DataBaseManager()
 
     def loadWidgets(self):
         self.buscarLabel = CustomLabel(self, "Buscar:")
@@ -35,7 +39,7 @@ class Search(tk.Frame):
         self.buscadorEntry.place(relx=.25, rely=0.0005, relwidth=0.5, height=35)
 
         self.buscarButton = CustomButton(self, "Buscar",
-                                         lambda: self.ads.getStrData(self.buscadorEntry.get(), self))
+                                         lambda: self.ads.getDataByKey(self.buscadorEntry.get(), self))
         self.buscarButton.place(relx=0.76, rely=0.0005, relwidth=0.15)
 
         self.textArea = CustomTextArea(self)
@@ -44,6 +48,10 @@ class Search(tk.Frame):
         self.botonCSV = CustomButton(self, "Guardar CSV", command=lambda: FilesManagger.saveDictAsCsvFile(
             self.data))  # TODO: cambiar command
         self.botonCSV.place(rely=0.0085, relx=0.12)
+
+        self.botonQueries = CustomButton(self, "Ver Queries",
+                                         command=lambda: print(QueriesManager.createPreSqlQueries(self.data, "yo")))
+        self.botonQueries.place(rely=0.0085, relx=0.4)
 
     def reloadTextArea(self, txt):
         self.textArea.destroy()

@@ -1,6 +1,5 @@
-import json
-
 import requests
+import json
 
 
 class ADS:
@@ -8,6 +7,24 @@ class ADS:
     # Constructor
     def __init__(self, token: str = "TnEWAPDi8n5R3taijqXleJDTZ5LNDr2LMJjOOsec"):
         self._token = token
+
+    """
+    Esta funcion es especifica para la interfaz de search, ya que utiliza un metodo de la misma 
+    para el correcto funcionamiento de esta interfaz del programa.
+    
+    y su proposito es mostrar al usuario el resultado de la busqueda y de almacenar dichos datos 
+    en un dict para las demas funciones como guardar los datos en un CSV.
+    """
+
+    def getDataByKey(self, key: str, cache):
+        response = requests.get(
+            "https://api.adsabs.harvard.edu/v1/search/query?"
+            "q={key}&rows=50&fl=author,title,pub,bibcode,doi,volume,year,page_range,links_data"
+            "&sort=date desc".format(
+                key=key), headers={'Authorization': 'Bearer ' + self._token}
+        )
+        cache.reloadTextArea(self._getStrAllArticles(response.json()))
+        cache.data = self._getCleanDictWithAllArticles(response.json())
 
     # Funcion para realizar la peticion al ADS y que regrese la informacion para el usuario
     def getStrData(self, key: str) -> str:

@@ -6,7 +6,6 @@ class CustomButton(tk.Button):
     def __init__(self, master, txt, command):
         super().__init__(master, command=command)
         self._master = master
-
         self.config(
             text=txt,
             relief=tk.FLAT,

@@ -8,4 +8,3 @@ masterFrom = MasterFrame(root)
 
 if __name__ == "__main__":
     masterFrom.mainloop()
-

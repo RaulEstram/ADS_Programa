@@ -10,5 +10,4 @@ class CustomLabel(tk.Label):
             bg="white",
             font=("JetBrains Mono", 12),
             anchor="e",
-
         )
