@@ -20,5 +20,6 @@ class DataBaseManager:
         self.cursor.execute(query, data)
 
     def queries(self, data: dict) -> bool:
-        #TODO: crear funcion que realice varios execute
-        pass
+        for item in data.keys():
+            self.cursor.execute(data[item]['query'], data[item]['values'])
+        self.conn.commit()

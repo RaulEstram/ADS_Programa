@@ -8,11 +8,12 @@ class CustomButton(tk.Button):
         self._master = master
         self.config(
             text=txt,
+            bg="#354259",
             relief=tk.FLAT,
             bd=0,
             cursor="hand1",
             activebackground="#1a1a1a",
             activeforeground="#C4C4C4",
-            foreground="#000",
+            foreground="#fff",
             font=("JetBrains Mono", 12)
         )

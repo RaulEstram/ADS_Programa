@@ -4,11 +4,13 @@ from elements.customButton import CustomButton
 from elements.customEntry import CustomEntry
 from elements.customLabel import CustomLabel
 from elements.customTextArea import CustomTextArea
+from elements.customCanva import Canva
 
 from logical.adsRequests import ADS
 from logical.files import FilesManagger
-from logical.databaseManager import DataBaseManager
-from logical.queriesManager import QueriesManager
+
+from database.databaseManager import DataBaseManager
+from database.queriesManager import QueriesManager
 
 
 class Search(tk.Frame):
@@ -29,7 +31,7 @@ class Search(tk.Frame):
             bg="#fff"
         )
         self.loadWidgets()
-        self.connection = DataBaseManager()
+        self.queries = QueriesManager()
 
     def loadWidgets(self):
         self.buscarLabel = CustomLabel(self, "Buscar:")
@@ -49,12 +51,26 @@ class Search(tk.Frame):
             self.data))  # TODO: cambiar command
         self.botonCSV.place(rely=0.0085, relx=0.12)
 
-        self.botonQueries = CustomButton(self, "Ver Queries",
-                                         command=lambda: print(QueriesManager.createPreSqlQueries(self.data, "yo")))
+        self.botonQueries = CustomButton(self, "Ver Queries", command=self.showQueries)
         self.botonQueries.place(rely=0.0085, relx=0.4)
+
+        self.botonSave = CustomButton(self, "Guardar Informacion", command=self.saveDataInDataBase)
+        self.botonSave.place(rely=0.0085, relx=0.6)
 
     def reloadTextArea(self, txt):
         self.textArea.destroy()
         self.textArea = CustomTextArea(self)
         self.textArea.place(relx=0.12, rely=0.002, relwidth=0.82, relheight=0.006)
         self.textArea.setText(txt)
+
+    def showQueries(self):
+        canva = Canva(
+            "Estos Queries Son una Previzualizacion, puede que contengan algun tipo de error\n\n" + self.queries.createPreSqlQueries(
+                self.data, "raul"))
+
+    def saveDataInDataBase(self):
+        data = QueriesManager.createInfoForQueries(self.data,
+                                                   "Raul")  # TODO: mejorar para que el usuario meta su nombre
+        connection = DataBaseManager()
+        connection.queries(data)
+        pass
