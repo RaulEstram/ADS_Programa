@@ -1,50 +1,60 @@
-from tkinter import *
-
-
 class QueriesManager:
 
     # Mostarle al usuario los queries
     @staticmethod
     def createPreSqlQueries(data: dict, author: str) -> str:
         queries = ""
-        for articule in data.keys():
+        for item in data.keys():
+            articule = data[item]
             try:
-                query = 'INSERT INTO `DatosADS` (`autores`, `title`, `pub`, `bibcode`, `doi`, `fpage`, `lpage`, `volumen`, `year`) VALUES ("{autor}", "{title}", "{pub}", "{bibcode}", "{doi}", "{fpage}", "{lpage}", "{volume}", "{year}");\n'.format(
-                    autor=author,
-                    title=data[articule]['title'],
-                    pub=data[articule]['pub'],
-                    bibcode=data[articule]['bibcode'],
-                    doi=data[articule]['doi'],
-                    fpage=data[articule]['page_range'].split("-")[0] if data[articule][
-                                                                            'page_range'] != "Undefined" else None,
-                    lpage=data[articule]['page_range'].split("-")[1] if data[articule][
-                                                                            'page_range'] != "Undefined" else None,
-                    volume=data[articule]['volume'],
-                    year=data[articule]['year']
-                )
-                queries += query
-            except:
-                print(data[articule])
+                fpage = articule['page_range'].split("-")[0] if articule['page_range'] != "Undefined" else None
+                lpage = articule['page_range'].split("-")[1] if articule['page_range'] != "Undefined" else None
+            except IndexError:
+                fpage = articule['page_range'] if articule['page_range'] != "Undefined" else None
+                lpage = articule['page_range'] if articule['page_range'] != "Undefined" else None
+
+            query = 'INSERT INTO `DatosADS` (`autores`, `title`, `pub`, `bibcode`, `doi`, `fpage`, `lpage`, `volumen`, `year`) VALUES ("{autor}", "{title}", "{pub}", "{bibcode}", "{doi}", "{fpage}", "{lpage}", "{volume}", "{year}");\n'.format(
+                autor=author,
+                title=articule['title'],
+                pub=articule['pub'],
+                bibcode=articule['bibcode'],
+                doi=articule['doi'],
+                fpage=fpage,
+                lpage=lpage,
+                volume=articule['volume'],
+                year=articule['year']
+            )
+            queries += query
         return queries
 
     # Crear la informacion de los queries
     @staticmethod
     def createInfoForQueries(data: dict, author: str) -> dict:
         queries = {}
-        for articule in range(len(data)):
+        for item in range(len(data)):
+
+            articule = data[item]
+
+            try:
+                fpage = articule['page_range'].split("-")[0] if articule['page_range'] != "Undefined" else None
+                lpage = articule['page_range'].split("-")[1] if articule['page_range'] != "Undefined" else None
+            except IndexError:
+                fpage = articule['page_range'] if articule['page_range'] != "Undefined" else None
+                lpage = articule['page_range'] if articule['page_range'] != "Undefined" else None
+
             query = 'INSERT INTO `DatosADS` (`autores`, `title`, `pub`, `bibcode`, `doi`, `fpage`, `lpage`, `volumen`, `year`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);'
             values = (
                 author,
-                data[articule]['title'],
-                data[articule]['pub'],
-                data[articule]['bibcode'],
-                data[articule]['doi'],
-                data[articule]['page_range'].split("-")[0] if data[articule]['page_range'] != "Undefined" else None,
-                data[articule]['page_range'].split("-")[1] if data[articule]['page_range'] != "Undefined" else None,
-                data[articule]['volume'],
-                data[articule]['year'],
+                articule['title'],
+                articule['pub'],
+                articule['bibcode'],
+                articule['doi'],
+                fpage,
+                lpage,
+                articule['volume'],
+                articule['year'],
             )
-            queries[articule] = {
+            queries[item] = {
                 "query": query,
                 "values": values
             }
