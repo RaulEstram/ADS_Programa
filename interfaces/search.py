@@ -5,12 +5,13 @@ from elements.customEntry import CustomEntry
 from elements.customLabel import CustomLabel
 from elements.custonTextArea import CustomTextArea
 from elements.windowsText import WindowsText
+from elements.customEntryMessage import EntryMessage
 
 from logical.adsRequests import ADS
 from logical.files import FilesManagger
 
 from database.databaseManager import DataBaseManager
-from database.queriesManager import QueriesManager
+from database.queriesManager import QueriesManager as QM
 
 
 class Search(tk.Frame):
@@ -32,8 +33,8 @@ class Search(tk.Frame):
             bg="#fff"
         )
         self.loadWidgets()
-        self.queries = QueriesManager()
         self.responsive()
+        self.connection = None
 
     def loadWidgets(self):
         self.buscarLabel = CustomLabel(self, "Buscar:")
@@ -80,8 +81,7 @@ class Search(tk.Frame):
                 self.data, "raul"), "Queries")
 
     def saveDataInDataBase(self):
-        data = QueriesManager.createInfoForQueries(self.data,
-                                                   "Raul")  # TODO: mejorar para que el usuario meta su nombre
-        connection = DataBaseManager()
-        connection.queries(data)
+        self.connection = DataBaseManager()
+
+        message = EntryMessage("Ingrese el Author", "Digite el Author", self.connection.executeQueriesByDict, self.data)
         pass

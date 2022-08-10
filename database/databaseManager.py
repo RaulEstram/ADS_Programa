@@ -1,5 +1,7 @@
 import mariadb as m
 
+from database.queriesManager import QueriesManager as qm
+
 
 class DataBaseManager:
 
@@ -23,3 +25,7 @@ class DataBaseManager:
         for item in data.keys():
             self.cursor.execute(data[item]['query'], data[item]['values'])
         self.conn.commit()
+
+    def executeQueriesByDict(self, *args):
+
+        print(args)
