@@ -7,6 +7,8 @@ class ADS:
     # Constructor
     def __init__(self, token: str = "TnEWAPDi8n5R3taijqXleJDTZ5LNDr2LMJjOOsec"):
         self._token = token
+        self._endpoint = "https://api.adsabs.harvard.edu/v1/search/query?q={key}&rows=200&" \
+                         "fl=author,title,pub,bibcode,doi,volume,year,page_range,links_data&sort=date desc"
 
     """
     Esta funcion es especifica para la interfaz de search, ya que utiliza un metodo de la misma 
@@ -17,34 +19,20 @@ class ADS:
     """
 
     def getDataByKey(self, key: str, cache):
-        response = requests.get(
-            "https://api.adsabs.harvard.edu/v1/search/query?"
-            "q={key}&rows=50&fl=author,title,pub,bibcode,doi,volume,year,page_range,links_data"
-            "&sort=date desc".format(
-                key=key), headers={'Authorization': 'Bearer ' + self._token}
-        )
+        response = requests.get(self._endpoint.format(key=key), headers={'Authorization': 'Bearer ' + self._token})
+        #print(response.json())
         cache.reloadTextArea(self._getStrAllArticles(response.json()))
         cache.data = self._getCleanDictWithAllArticles(response.json())
 
     # Funcion para realizar la peticion al ADS y que regrese la informacion para el usuario
     def getStrData(self, key: str) -> str:
-        response = requests.get(
-            "https://api.adsabs.harvard.edu/v1/search/query?"
-            "q={key}&rows=50&fl=author,title,pub,bibcode,doi,volume,year,page_range,links_data"
-            "&sort=date desc".format(
-                key=key), headers={'Authorization': 'Bearer ' + self._token}
-        )
+        response = requests.get(self._endpoint.format(key=key), headers={'Authorization': 'Bearer ' + self._token})
         data = self._getStrAllArticles(response.json())
         return data
 
     # Funcion para realizar la peticion al ADS y que regrese un dict con la informacion para su posterior uso
     def getDictData(self, key: str) -> dict:
-        response = requests.get(
-            "https://api.adsabs.harvard.edu/v1/search/query?"
-            "q={key}&rows=50&fl=author,title,pub,bibcode,doi,volume,year,page_range,links_data"
-            "&sort=date desc".format(
-                key=key), headers={'Authorization': 'Bearer ' + self._token}
-        )
+        response = requests.get(self._endpoint.format(key=key), headers={'Authorization': 'Bearer ' + self._token})
         data = self._getCleanDictWithAllArticles(response.json())
         return data
 

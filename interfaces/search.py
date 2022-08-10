@@ -11,7 +11,7 @@ from logical.adsRequests import ADS
 from logical.files import FilesManagger
 
 from database.databaseManager import DataBaseManager
-from database.queriesManager import QueriesManager as QM
+from database.queriesManager import QueriesManager as qm
 
 
 class Search(tk.Frame):
@@ -28,6 +28,7 @@ class Search(tk.Frame):
         self.botonQueries = None
         self.data = {}
         self.obtenerTexto = None
+        self.botonSave = None
         self.ads = ADS("TnEWAPDi8n5R3taijqXleJDTZ5LNDr2LMJjOOsec")
         self.config(
             bg="#fff"
@@ -77,11 +78,9 @@ class Search(tk.Frame):
 
     def showQueries(self):
         canva = WindowsText(
-            "Estos Queries Son una Previzualizacion, puede que contengan algun tipo de error\n\n" + self.queries.createPreSqlQueries(
-                self.data, "raul"), "Queries")
+            "Estos Queries Son una Previzualizacion, puede que contengan algun tipo de error\n\n" + qm.createPreSqlQueries(
+                self.data, "User"), "Queries")
 
     def saveDataInDataBase(self):
         self.connection = DataBaseManager()
-
         message = EntryMessage("Ingrese el Author", "Digite el Author", self.connection.executeQueriesByDict, self.data)
-        pass

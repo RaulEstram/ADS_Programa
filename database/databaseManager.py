@@ -27,5 +27,5 @@ class DataBaseManager:
         self.conn.commit()
 
     def executeQueriesByDict(self, *args):
-
-        print(args)
+        data = qm.createInfoForQueries(args[1], args[0])
+        self.queries(data)
