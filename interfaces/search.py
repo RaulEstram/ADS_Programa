@@ -3,8 +3,8 @@ import tkinter as tk
 from elements.customButton import CustomButton
 from elements.customEntry import CustomEntry
 from elements.customLabel import CustomLabel
-from elements.customTextArea import CustomTextArea
-from elements.customCanva import Canva
+from elements.custonTextArea import CustomTextArea
+from elements.windowsText import WindowsText
 
 from logical.adsRequests import ADS
 from logical.files import FilesManagger
@@ -22,6 +22,7 @@ class Search(tk.Frame):
         self.buscarButton = None
         self.buscarLabel = None
         self.textArea = None
+        self.area = None
         self.botonCSV = None
         self.botonQueries = None
         self.data = {}
@@ -36,27 +37,29 @@ class Search(tk.Frame):
 
     def loadWidgets(self):
         self.buscarLabel = CustomLabel(self, "Buscar:")
-        self.buscarLabel.grid(row=1, column=1, sticky="nsew")  # TODO: cambiar posicion
+        self.buscarLabel.grid(row=1, column=1, sticky="nsew")
 
         self.buscadorEntry = CustomEntry(self)
-        self.buscadorEntry.grid(row=1, column=2, columnspan=5, sticky="nsew")  # TODO: cambiar posicion
+        self.buscadorEntry.grid(row=1, column=2, columnspan=5, sticky="nsew")
 
         self.buscarButton = CustomButton(self, "Buscar",
                                          lambda: self.ads.getDataByKey(self.buscadorEntry.get(), self))
-        self.buscarButton.grid(row=1, column=8, sticky="nsew")  # TODO: cambiar posicion
+        self.buscarButton.grid(row=1, column=8, sticky="nsew")
 
-        self.textArea = tk.Frame(self)
-        self.textArea.grid(row=3, rowspan=14, column=1, columnspan=8, sticky="nsew")  # TODO: cambiar posicion
+        self.area = tk.Frame(self)
+        self.area.grid(row=3, rowspan=14, column=1, columnspan=8, sticky="nsew")
+
+        self.textArea = CustomTextArea(self.area)
 
         self.botonCSV = CustomButton(self, "Guardar CSV", command=lambda: FilesManagger.saveDictAsCsvFile(
             self.data))  # TODO: cambiar command
-        self.botonCSV.grid(row=18, column=1, sticky="nsew")  # TODO: cambiar posicion
+        self.botonCSV.grid(row=18, column=2, padx=5, sticky="nsew")
 
         self.botonQueries = CustomButton(self, "Ver Queries", command=self.showQueries)
-        self.botonQueries.grid(row=18, column=2, sticky="nsew")  # TODO: cambiar posicion
+        self.botonQueries.grid(row=18, column=3, padx=5, sticky="nsew")
 
-        self.botonSave = CustomButton(self, "Guardar Informacion", command=self.saveDataInDataBase)
-        self.botonSave.grid(row=18, column=3, sticky="nsew")  # TODO: cambiar posicion
+        self.botonSave = CustomButton(self, "Guardar", command=self.saveDataInDataBase)
+        self.botonSave.grid(row=18, column=4, padx=5, sticky="nsew")
 
     def responsive(self):
         row = 20
@@ -67,15 +70,14 @@ class Search(tk.Frame):
             self.columnconfigure(i, weight=1)
 
     def reloadTextArea(self, txt):
-        self.textArea.destroy()
-        self.textArea = CustomTextArea(self)
-        self.textArea.grid(row=0, column=0, sticky="nsew")  # TODO: cambiar posicion
+
+        self.textArea.deleteText()
         self.textArea.setText(txt)
 
     def showQueries(self):
-        canva = Canva(
+        canva = WindowsText(
             "Estos Queries Son una Previzualizacion, puede que contengan algun tipo de error\n\n" + self.queries.createPreSqlQueries(
-                self.data, "raul"))
+                self.data, "raul"), "Queries")
 
     def saveDataInDataBase(self):
         data = QueriesManager.createInfoForQueries(self.data,

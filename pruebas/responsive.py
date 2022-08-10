@@ -8,13 +8,13 @@ root.geometry("750x500")
 root.title("Responsive")
 
 # Creamos un MasterFrame que tendra todos los widgets de nuestra app
-frame = Frame(root)
-frame.config(bg="pink")
-frame.pack(expand=True, fill=tk.BOTH)
+root = Frame(root)
+root.config(bg="pink")
+root.pack(expand=True, fill=tk.BOTH)
 
-scrollY = Scrollbar(frame)
-scrollX = Scrollbar(frame, orient=tk.HORIZONTAL)
-area = Text(frame, wrap=NONE, xscrollcommand=scrollX.set, yscrollcommand=scrollY.set)
+scrollY = Scrollbar(root)
+scrollX = Scrollbar(root, orient=tk.HORIZONTAL)
+area = Text(root, wrap=NONE, xscrollcommand=scrollX.set, yscrollcommand=scrollY.set)
 
 scrollX.config(command=area.xview)
 scrollY.config(command=area.yview)
@@ -23,13 +23,13 @@ area.grid(column=0, row=0, sticky="nswe")
 scrollX.grid(column=0, row=1, sticky="nsew")
 scrollY.grid(column=1, row=0, sticky="nsew")
 
-frame.rowconfigure(0, weight=1000)
-frame.columnconfigure(0, weight=1000)
-frame.rowconfigure(1, weight=1)
-frame.columnconfigure(1, weight=1)
+root.rowconfigure(0, weight=1000)
+root.columnconfigure(0, weight=1000)
+root.rowconfigure(1, weight=1)
+root.columnconfigure(1, weight=1)
 
 if __name__ == "__main__":
-    frame.mainloop()
+    root.mainloop()
 
 
 class CustomTextArea(tk.Frame):

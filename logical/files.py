@@ -18,6 +18,7 @@ class FilesManagger:
                 for item in columns:
                     file_data += data[element][item].replace(",", ";") + ","
                 file_data += "\n"
+            print(file_data)
             save.write(file_data)
             save.close()
         except AttributeError:
