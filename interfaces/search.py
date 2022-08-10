@@ -83,4 +83,5 @@ class Search(tk.Frame):
 
     def saveDataInDataBase(self):
         self.connection = DataBaseManager()
-        message = EntryMessage("Ingrese el Author", "Digite el Author", self.connection.executeQueriesByDict, self.data)
+        if self.connection.getStatus():
+            message = EntryMessage("Ingrese el Author", "Digite el Author", self.connection.executeQueriesByDict, self.data)

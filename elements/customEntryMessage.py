@@ -1,6 +1,5 @@
 import tkinter as tk
 from tkinter import *
-from types import UnionType
 
 from elements.customEntry import CustomEntry
 from elements.customLabel import CustomLabel
