@@ -32,35 +32,44 @@ class Search(tk.Frame):
         )
         self.loadWidgets()
         self.queries = QueriesManager()
+        self.responsive()
 
     def loadWidgets(self):
         self.buscarLabel = CustomLabel(self, "Buscar:")
-        self.buscarLabel.place(relx=0.09, rely=0.0005, relwidth=0.15, height=35)
+        self.buscarLabel.grid(row=1, column=1, sticky="nsew")  # TODO: cambiar posicion
 
         self.buscadorEntry = CustomEntry(self)
-        self.buscadorEntry.place(relx=.25, rely=0.0005, relwidth=0.5, height=35)
+        self.buscadorEntry.grid(row=1, column=2, columnspan=5, sticky="nsew")  # TODO: cambiar posicion
 
         self.buscarButton = CustomButton(self, "Buscar",
                                          lambda: self.ads.getDataByKey(self.buscadorEntry.get(), self))
-        self.buscarButton.place(relx=0.76, rely=0.0005, relwidth=0.15)
+        self.buscarButton.grid(row=1, column=8, sticky="nsew")  # TODO: cambiar posicion
 
-        self.textArea = CustomTextArea(self)
-        self.textArea.place(relx=0.12, rely=0.002, relwidth=0.82, relheight=0.006)
+        self.textArea = tk.Frame(self)
+        self.textArea.grid(row=3, rowspan=14, column=1, columnspan=8, sticky="nsew")  # TODO: cambiar posicion
 
         self.botonCSV = CustomButton(self, "Guardar CSV", command=lambda: FilesManagger.saveDictAsCsvFile(
             self.data))  # TODO: cambiar command
-        self.botonCSV.place(rely=0.0085, relx=0.12)
+        self.botonCSV.grid(row=18, column=1, sticky="nsew")  # TODO: cambiar posicion
 
         self.botonQueries = CustomButton(self, "Ver Queries", command=self.showQueries)
-        self.botonQueries.place(rely=0.0085, relx=0.4)
+        self.botonQueries.grid(row=18, column=2, sticky="nsew")  # TODO: cambiar posicion
 
         self.botonSave = CustomButton(self, "Guardar Informacion", command=self.saveDataInDataBase)
-        self.botonSave.place(rely=0.0085, relx=0.6)
+        self.botonSave.grid(row=18, column=3, sticky="nsew")  # TODO: cambiar posicion
+
+    def responsive(self):
+        row = 20
+        columns = 10
+        for i in range(row):
+            self.rowconfigure(i, weight=1)
+        for i in range(columns):
+            self.columnconfigure(i, weight=1)
 
     def reloadTextArea(self, txt):
         self.textArea.destroy()
         self.textArea = CustomTextArea(self)
-        self.textArea.place(relx=0.12, rely=0.002, relwidth=0.82, relheight=0.006)
+        self.textArea.grid(row=0, column=0, sticky="nsew")  # TODO: cambiar posicion
         self.textArea.setText(txt)
 
     def showQueries(self):
