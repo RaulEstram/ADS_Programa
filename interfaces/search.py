@@ -8,7 +8,7 @@ from elements.windowsText import WindowsText
 from elements.customEntryMessage import EntryMessage
 
 from logical.adsRequests import ADS
-from logical.files import FilesManagger
+from logical.files import FilesManagger as fm
 
 from database.databaseManager import DataBaseManager
 from database.queriesManager import QueriesManager as qm
@@ -53,8 +53,8 @@ class Search(tk.Frame):
 
         self.textArea = CustomTextArea(self.area)
 
-        self.botonCSV = CustomButton(self, "Guardar", command=lambda: FilesManagger.saveDictAsCsvFile(
-            self.data))  # TODO: cambiar command
+        self.botonCSV = CustomButton(self, "Guardar", command=lambda: fm.saveDictAsCsvFile(
+            self.textArea.getText()))  # TODO: cambiar command
         self.botonCSV.grid(row=18, column=2, padx=5, sticky="nsew")
 
         self.botonQueries = CustomButton(self, "Ver Queries", command=self.showQueries)
@@ -72,7 +72,6 @@ class Search(tk.Frame):
             self.columnconfigure(i, weight=1)
 
     def reloadTextArea(self, txt):
-
         self.textArea.deleteText()
         self.textArea.setText(txt)
 

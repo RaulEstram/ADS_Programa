@@ -38,5 +38,8 @@ class CustomTextArea:
     def setText(self, txt):
         self.textArea.insert(tk.INSERT, txt)
 
+    def getText(self):
+        return self.textArea.get("1.0", tk.END)
+
     def deleteText(self):
         self.textArea.delete("1.0", tk.END)
