@@ -1,8 +1,14 @@
 class QueriesManager:
 
-    # Mostarle al usuario los queries
     @staticmethod
     def createPreSqlQueries(data: dict, author: str) -> str:
+        """
+
+        :param data:
+        :param author:
+        :return:
+        """
+
         queries = ""
         for item in data.keys():
             articule = data[item]

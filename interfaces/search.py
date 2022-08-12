@@ -53,7 +53,7 @@ class Search(tk.Frame):
 
         self.textArea = CustomTextArea(self.area)
 
-        self.botonCSV = CustomButton(self, "Guardar CSV", command=lambda: FilesManagger.saveDictAsCsvFile(
+        self.botonCSV = CustomButton(self, "Guardar", command=lambda: FilesManagger.saveDictAsCsvFile(
             self.data))  # TODO: cambiar command
         self.botonCSV.grid(row=18, column=2, padx=5, sticky="nsew")
 
