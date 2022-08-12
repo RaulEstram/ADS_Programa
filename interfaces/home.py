@@ -8,11 +8,12 @@ class Home(tk.Frame):
         super().__init__(master)
         self._master = master
         self.config(
-            bg="purple"
+            bg="#fff"
         )
         self.loadWidgets()
 
     def loadWidgets(self):
         titulo = Label(self)
-        titulo.config(text="hola mundo")
-        titulo.place(x=0, y=0, relheight=0.001, relwidth=1)
+        titulo.config(text="Programa ADS", bg="#fff", font=("JetBrains Mono", 25))
+        titulo.grid(row=0, column=0, sticky="nsew")
+        self.columnconfigure(0, weight=1)
