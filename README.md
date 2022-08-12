@@ -11,7 +11,7 @@ Para esta tarea se utiliza la [API](https://ui.adsabs.harvard.edu/help/api/api-d
 Para este programa se utilizó Python como lenguaje de programación, por lo tanto requiere las siguientes cosas:
 
 * python3.10
-* módulos: requests y mariadb
+* módulos: requests, mariadb y python-dotenv
 
 ## Funcionamiento Básico.
 

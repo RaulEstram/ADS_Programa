@@ -3,7 +3,7 @@ import tkinter as tk
 from elements.customButton import CustomButton
 from elements.customEntry import CustomEntry
 from elements.customLabel import CustomLabel
-from elements.custonTextArea import CustomTextArea
+from elements.customTextArea import CustomTextArea
 from elements.windowsText import WindowsText
 from elements.customEntryMessage import EntryMessage
 
@@ -77,7 +77,7 @@ class Search(tk.Frame):
 
     def showQueries(self):
         canva = WindowsText(
-            "Estos Queries Son una Previzualizacion, puede que contengan algun tipo de error\n\n" + qm.createPreSqlQueries(
+            "Estos Queries Son una Previsualización, puede que contengan algún tipo de error\n\n" + qm.createPreSqlQueries(
                 self.data, "User"), "Queries")
 
     def saveDataInDataBase(self):
