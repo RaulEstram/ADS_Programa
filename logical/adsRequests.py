@@ -1,3 +1,4 @@
+import os
 import requests
 import json
 
@@ -5,8 +6,8 @@ import json
 class ADS:
 
     # Constructor
-    def __init__(self, token: str = "TnEWAPDi8n5R3taijqXleJDTZ5LNDr2LMJjOOsec"):
-        self._token = token
+    def __init__(self):
+        self._token = os.environ.get("TOKEN_API")
         self._endpoint = "https://api.adsabs.harvard.edu/v1/search/query?q={key}&rows=200&" \
                          "fl=author,title,pub,bibcode,doi,volume,year,page_range,links_data&sort=date desc"
 

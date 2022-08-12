@@ -29,7 +29,7 @@ class Search(tk.Frame):
         self.data = {}
         self.obtenerTexto = None
         self.botonSave = None
-        self.ads = ADS("TnEWAPDi8n5R3taijqXleJDTZ5LNDr2LMJjOOsec")
+        self.ads = ADS()
         self.config(
             bg="#fff"
         )

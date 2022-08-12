@@ -1,3 +1,5 @@
+import os
+
 from tkinter import messagebox
 import mariadb as m
 
@@ -14,11 +16,11 @@ class DataBaseManager:
         self._status = False
         try:
             self._conn = m.Connection(
-                user="u6h4sir814popwrc",
-                password="V9oARG43hxkx6I6ISrbf",
-                host="beoi7s59mz6ilseh5hpr-mysql.services.clever-cloud.com",
-                port=3306,
-                database="beoi7s59mz6ilseh5hpr"
+                user=os.environ.get("USER_DB"),
+                password=os.environ.get("PASSWORD_DB"),
+                host=os.environ.get("HOST_DB"),
+                port=int(os.environ.get("PORT_DB")),
+                database=os.environ.get("DATABASE_DB")
             )
             self._cursor = self._conn.cursor()
             self._status = True
