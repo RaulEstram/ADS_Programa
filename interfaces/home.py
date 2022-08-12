@@ -1,4 +1,4 @@
-from tkinter import *
+from tkinter import Label
 import tkinter as tk
 
 
@@ -15,5 +15,5 @@ class Home(tk.Frame):
     def loadWidgets(self):
         titulo = Label(self)
         titulo.config(text="Programa ADS", bg="#fff", font=("JetBrains Mono", 25))
-        titulo.grid(row=0, column=0, sticky="nsew")
+        titulo.grid(row=0, column=0, sticky="nsew", pady=20)
         self.columnconfigure(0, weight=1)

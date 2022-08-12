@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import *
+from tkinter import Frame, Label
 
 from interfaces.menu import BarMenu
 from interfaces.home import Home

@@ -10,8 +10,15 @@ class EntryMessage(Tk):
 
     def __init__(self, txt: str, title: str = 'Informacion', command=print, arg=None):
         super().__init__()
-        self.geometry("250x120")
+        app_width = 250
+        app_height = 120
+        screen_w = self.winfo_screenwidth()
+        screen_h = self.winfo_screenheight()
+        x = (screen_w / 2) - (app_width / 2)
+        y = (screen_h / 2) - (app_height / 2)
+        self.geometry(f"{app_width}x{app_height}+{int(x)}+{int(y)}")
         self.title(title)
+
         self.frame = None
         self.entry = None
         self.label = None

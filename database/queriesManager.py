@@ -1,3 +1,6 @@
+import os
+
+
 class QueriesManager:
 
     @staticmethod
@@ -19,7 +22,7 @@ class QueriesManager:
                 fpage = articule['page_range'] if articule['page_range'] != "Undefined" else None
                 lpage = articule['page_range'] if articule['page_range'] != "Undefined" else None
 
-            query = 'INSERT INTO `DatosADS` (`autores`, `title`, `pub`, `bibcode`, `doi`, `fpage`, `lpage`, `volumen`, `year`) VALUES ("{autor}", "{title}", "{pub}", "{bibcode}", "{doi}", "{fpage}", "{lpage}", "{volume}", "{year}");\n'.format(
+            query = os.environ.get("INSERT_QUERY_SHOW").format(
                 autor=author,
                 title=articule['title'],
                 pub=articule['pub'],
@@ -30,7 +33,7 @@ class QueriesManager:
                 volume=articule['volume'],
                 year=articule['year']
             )
-            queries += query
+            queries += query + "\n"
         return queries
 
     # Crear la informacion de los queries
@@ -48,7 +51,7 @@ class QueriesManager:
                 fpage = articule['page_range'] if articule['page_range'] != "Undefined" else None
                 lpage = articule['page_range'] if articule['page_range'] != "Undefined" else None
 
-            query = 'INSERT INTO `DatosADS` (`autores`, `title`, `pub`, `bibcode`, `doi`, `fpage`, `lpage`, `volumen`, `year`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);'
+            query = os.environ.get("INSERT_QUERY")
             values = (
                 author,
                 articule['title'],

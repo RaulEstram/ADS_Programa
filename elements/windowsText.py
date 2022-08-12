@@ -20,4 +20,3 @@ class WindowsText(Tk):
         self.frame.pack(expand=True, fill=BOTH)
         self.area = CustomTextArea(self.frame)
         self.area.setText(txt)
-

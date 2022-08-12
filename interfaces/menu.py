@@ -1,5 +1,7 @@
 import tkinter as tk
+
 from elements.customButton import CustomButton
+
 from interfaces.home import Home
 from interfaces.search import Search
 

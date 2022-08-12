@@ -8,43 +8,56 @@ class ADS:
     # Constructor
     def __init__(self):
         self._token = os.environ.get("TOKEN_API")
-        self._endpoint = "https://api.adsabs.harvard.edu/v1/search/query?q={key}&rows=200&" \
-                         "fl=author,title,pub,bibcode,doi,volume,year,page_range,links_data&sort=date desc"
+        self._endpoint = os.environ.get("ENDPOINT")
 
-    """
-    Esta funcion es especifica para la interfaz de search, ya que utiliza un metodo de la misma 
-    para el correcto funcionamiento de esta interfaz del programa.
-    
-    y su proposito es mostrar al usuario el resultado de la busqueda y de almacenar dichos datos 
-    en un dict para las demas funciones como guardar los datos en un CSV.
-    """
+    def getDataByKey(self, key: str, cache) -> bool:
+        """
+        Función que realiza la petición al ENDPOINT , y que muestra y guarda la información en la interfaz de search.
 
-    def getDataByKey(self, key: str, cache):
-        response = requests.get(self._endpoint.format(key=key), headers={'Authorization': 'Bearer ' + self._token})
-        #print(response.json())
-        cache.reloadTextArea(self._getStrAllArticles(response.json()))
-        cache.data = self._getCleanDictWithAllArticles(response.json())
+        :param key: Llave de la búsqueda
+        :param cache: Interfaz con la propiedad .data donde almacenara la información recopilada como un dict limpio
+        :return: Retorna True si se realizó la tarea satisfactoriamente, de lo contrario retorna un False
+        """
+        try:
+            response = requests.get(self._endpoint.format(key=key), headers={'Authorization': 'Bearer ' + self._token})
+            cache.reloadTextArea(self._getStrAllArticles(response.json()))
+            cache.data = self._getCleanDictWithAllArticles(response.json())
+            return True
+        except Exception:
+            return False
 
-    # Funcion para realizar la peticion al ADS y que regrese la informacion para el usuario
     def getStrData(self, key: str) -> str:
+        """
+        Función que realiza una petición al ENDPOINT y que regresa la información limpia para el usuario final
+
+
+        :param key: Llave de la búsqueda
+        :return: Un str con la información recopilada limpia
+        """
         response = requests.get(self._endpoint.format(key=key), headers={'Authorization': 'Bearer ' + self._token})
         data = self._getStrAllArticles(response.json())
         return data
 
-    # Funcion para realizar la peticion al ADS y que regrese un dict con la informacion para su posterior uso
     def getDictData(self, key: str) -> dict:
+        """
+        Función para realizar una petición al ENDPOINT y que regresa un dict con la información limpia
+
+        :param key: Llave de la búsqueda
+        :return: Retorna un dict con la información recopilada limpia
+        """
+
         response = requests.get(self._endpoint.format(key=key), headers={'Authorization': 'Bearer ' + self._token})
         data = self._getCleanDictWithAllArticles(response.json())
         return data
 
-    """
-    Funcion para regresar un Dict limpio de un Articulo, es el complemento de otras funciones
-
-    Se le tien que pasar como argumento la parte "semi limpia" del dict que regresa la peticion.
-    """
-
     @staticmethod
     def _getCleanDataByArticle(data: dict) -> dict:
+        """
+        Función que regresa un dict con la información de un artículo
+
+        :param data: Un dict con la información del artículo en sucio
+        :return: Un dict con la información del artículo en limpio
+        """
         keys = data.keys()
         return {
             'authors': "".join(map(str, data['author'])),
@@ -58,23 +71,20 @@ class ADS:
             'year': data['year'],
         }
 
-    """
-    Funcion para mostrar resultados al usuario final
-
-    Se le tiene que pasar como argumento la peticion cruda.
-    """
-
     def _getStrAllArticles(self, data: dict) -> str:
-        # resultado que vamos a regresar
+        """
+        Función para obtener un str con la información de los artículos.
+
+        :param data: Un dict con la información obtenida de la petición al ENDPOINT.
+        :return: Un str con la información de los artículos.
+        """
         result = ""
-        # for para iterar todos los elementos obtenidos por la peticion api
         for element in data['response']['docs']:
 
             url_list = ""
             authors_list = ""
             dic_data = self._getCleanDataByArticle(element)
 
-            # for para obtener los links del articulo en lista
             for elem in element["links_data"]:
                 res = json.loads(elem)
                 if res["type"] == "pdf":
@@ -83,8 +93,6 @@ class ADS:
                     url_list += "\n    • Online: {online}".format(online=res["url"])
             url_list += "\n    • ADS: https://ui.adsabs.harvard.edu/abs/{bibcode}/abstract".format(
                 bibcode=dic_data['bibcode'])
-
-            # For para tener los nombres de los participantes del articulo en lista
 
             for elem in element['author']:
                 authors_list += "\n    • {author}".format(author=elem)
@@ -102,16 +110,15 @@ class ADS:
             )
             result += item + "\n\n"
 
-        # return de la informacion ya limpia
         return result
 
-    """
-    Funcion para tener un diccionario limpio con todos los articulos de la peticion
+    def _getCleanDictWithAllArticles(self, data: dict) -> dict:
+        """
+        Función que realiza una petición al ENDPOINT y que regresa la información limpia para el usuario final
 
-    Se le pasa como argumento el resultado de la peticion en crudo.
-    """
-
-    def _getCleanDictWithAllArticles(self, data):
+        :param data: Un dict con la información obtenida de la petición al ENDPOINT.
+        :return: Un dict con la información de todos los artículos en limpio
+        """
         dict_data = {}
         count = 0
         for element in data['response']['docs']:

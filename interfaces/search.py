@@ -8,7 +8,7 @@ from elements.windowsText import WindowsText
 from elements.customEntryMessage import EntryMessage
 
 from logical.adsRequests import ADS
-from logical.files import FilesManagger as fm
+from logical.files import FilesManager as fm
 
 from database.databaseManager import DataBaseManager
 from database.queriesManager import QueriesManager as qm
@@ -53,7 +53,7 @@ class Search(tk.Frame):
 
         self.textArea = CustomTextArea(self.area)
 
-        self.botonCSV = CustomButton(self, "Guardar", command=lambda: fm.saveDictAsCsvFile(
+        self.botonCSV = CustomButton(self, "Guardar txt", command=lambda: fm.saveDictAsCsvFile(
             self.textArea.getText()))  # TODO: cambiar command
         self.botonCSV.grid(row=18, column=2, padx=5, sticky="nsew")
 
@@ -83,4 +83,5 @@ class Search(tk.Frame):
     def saveDataInDataBase(self):
         self.connection = DataBaseManager()
         if self.connection.getStatus():
-            message = EntryMessage("Ingrese el Author", "Digite el Author", self.connection.executeQueriesByDict, self.data)
+            message = EntryMessage("Ingrese el Author", "Digite el Author", self.connection.executeQueriesByDict,
+                                   self.data)
