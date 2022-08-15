@@ -9,7 +9,6 @@ load_dotenv(find_dotenv())
 root = Tk()
 
 root.title("Búsqueda de Datos ADS")
-root.iconbitmap("assets\\icono.ico")
 
 app_width = 850
 app_height = 500
