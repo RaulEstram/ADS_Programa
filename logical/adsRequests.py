@@ -19,10 +19,13 @@ class ADS:
         :param cache: Interfaz con la propiedad .data donde almacenara la información recopilada como un dict limpio
         :return: Retorna True si se realizó la tarea satisfactoriamente, de lo contrario retorna un False
         """
-
-        response = requests.get(self._endpoint.format(key=key), headers={'Authorization': 'Bearer ' + self._token})
-        cache.reloadTextArea(self._getStrAllArticles(response.json()))
-        cache.data = self._getCleanDictWithAllArticles(response.json())
+        try:
+            response = requests.get(self._endpoint.format(key=key), headers={'Authorization': 'Bearer ' + self._token})
+            cache.reloadTextArea(self._getStrAllArticles(response.json()))
+            cache.data = self._getCleanDictWithAllArticles(response.json())
+        except Exception:
+            messagebox.showerror("Error conexión API",
+                                 "Se produjo un error al realizar o al procesar la petición a la API")
         return True
 
     def getStrData(self, key: str) -> str:
