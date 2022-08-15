@@ -1,6 +1,7 @@
 import os
 import requests
 import json
+from tkinter import messagebox
 
 
 class ADS:
@@ -18,13 +19,11 @@ class ADS:
         :param cache: Interfaz con la propiedad .data donde almacenara la información recopilada como un dict limpio
         :return: Retorna True si se realizó la tarea satisfactoriamente, de lo contrario retorna un False
         """
-        try:
-            response = requests.get(self._endpoint.format(key=key), headers={'Authorization': 'Bearer ' + self._token})
-            cache.reloadTextArea(self._getStrAllArticles(response.json()))
-            cache.data = self._getCleanDictWithAllArticles(response.json())
-            return True
-        except Exception:
-            return False
+
+        response = requests.get(self._endpoint.format(key=key), headers={'Authorization': 'Bearer ' + self._token})
+        cache.reloadTextArea(self._getStrAllArticles(response.json()))
+        cache.data = self._getCleanDictWithAllArticles(response.json())
+        return True
 
     def getStrData(self, key: str) -> str:
         """
@@ -84,15 +83,17 @@ class ADS:
             url_list = ""
             authors_list = ""
             dic_data = self._getCleanDataByArticle(element)
-
-            for elem in element["links_data"]:
-                res = json.loads(elem)
-                if res["type"] == "pdf":
-                    url_list += "\n    • Academic pdf: {pdf}".format(pdf=res["url"])
-                if res["type"] == "electr":
-                    url_list += "\n    • Online: {online}".format(online=res["url"])
-            url_list += "\n    • ADS: https://ui.adsabs.harvard.edu/abs/{bibcode}/abstract".format(
-                bibcode=dic_data['bibcode'])
+            if 'links_data' in element.keys():
+                for elem in element["links_data"]:
+                    res = json.loads(elem)
+                    if res["type"] == "pdf":
+                        url_list += "\n    • Academic pdf: {pdf}".format(pdf=res["url"])
+                    if res["type"] == "electr":
+                        url_list += "\n    • Online: {online}".format(online=res["url"])
+                url_list += "\n    • ADS: https://ui.adsabs.harvard.edu/abs/{bibcode}/abstract".format(
+                    bibcode=dic_data['bibcode'])
+            else:
+                url_list = "No hay URLs"
 
             for elem in element['author']:
                 authors_list += "\n    • {author}".format(author=elem)
